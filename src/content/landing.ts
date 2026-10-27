@@ -1,8 +1,3 @@
-/**
- * Contenido de la landing. Separado de los componentes para poder
- * editarlo (o moverlo a un CMS) sin tocar la UI.
- */
-
 export const BRAND = {
   name: "Calma Café",
   tagline: "Café de especialidad",

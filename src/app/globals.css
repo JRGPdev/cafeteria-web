@@ -12,7 +12,6 @@ html {
   -webkit-text-size-adjust: 100%;
 }
 
-/* Lenis (smooth scroll) */
 html.lenis,
 html.lenis body {
   height: auto;

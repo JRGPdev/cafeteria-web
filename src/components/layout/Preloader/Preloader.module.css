@@ -50,8 +50,6 @@
     transform 0.7s var(--ease-out);
 }
 
-/* ---------- Taza ---------- */
-
 .cup {
   width: clamp(150px, 26vw, 220px);
   height: auto;
@@ -93,8 +91,6 @@
   animation: steam 2.4s ease-in-out infinite both;
 }
 
-/* ---------- Textos ---------- */
-
 .brand {
   margin-top: var(--space-6);
   font: 600 clamp(26px, 2vw + 16px, 34px) / 1.1 var(--font-display);
@@ -129,8 +125,6 @@
   font-size: 0.7em;
 }
 
-/* ---------- Barra inferior ---------- */
-
 .bar {
   position: absolute;
   left: 0;
@@ -148,8 +142,6 @@
   transform: scaleX(0);
   will-change: transform;
 }
-
-/* ---------- Salida: telón que sube con borde curvo ---------- */
 
 .leaving {
   transform: translateY(calc(-100% - 14vh));

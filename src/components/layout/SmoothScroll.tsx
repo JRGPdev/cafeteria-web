@@ -6,7 +6,6 @@ import { loadingStore } from "@/lib/loading";
 import { prefersReducedMotion } from "@/lib/motion";
 import { measureSections } from "@/lib/scene-progress";
 
-/** Scroll suave (Lenis) + medición de secciones para la escena 3D. */
 export function SmoothScroll() {
   useEffect(() => {
     measureSections();

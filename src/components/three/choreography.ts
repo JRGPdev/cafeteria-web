@@ -56,7 +56,5 @@ export const SPLASH_SPREAD = [0, 1, 1.8, 2.4, 0];
 export const SPLASH_SIZE = [1, 0.85, 0, 0, 0];
 /** Sombra de contacto bajo el platillo (como si apoyara en una mesa). */
 export const CONTACT_SHADOW = [0.6, 0.35, 0, 0.8, 0.65];
-/** Opacidad del vapor. */
 export const STEAM_OPACITY = [0.2, 0, 0, 0, 1];
-/** Velocidad extra de deriva de los granos. */
 export const BEANS_DRIFT = [0, 0.6, 1.2, 2.4, 3];
