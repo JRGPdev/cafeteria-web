@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { mergeGeometries } from "three/examples/jsm/utils/BufferGeometryUtils.js";
 import { MeshBVH } from "three-mesh-bvh";
+import { createCupGeometry, createHandleGeometry, createSaucerGeometry } from "./geometry";
 
 /**
  * Oclusión ambiental "horneada" en los vértices (atributo `color`).
@@ -88,11 +89,11 @@ export function writeOcclusion(geometry: THREE.BufferGeometry, values: Float32Ar
  * calcular una columna del perfil y copiarla. `refine` permite recalcular
  * vértice a vértice donde se rompe la simetría (p. ej. junto al asa).
  */
-export function bakeLatheOcclusion(
+export function latheOcclusion(
   geometry: THREE.LatheGeometry,
   baker: OcclusionBaker,
   refine?: { baker: OcclusionBaker; where: (point: THREE.Vector3, normal: THREE.Vector3) => boolean },
-) {
+): Float32Array {
   const { points, segments } = geometry.parameters;
   const position = geometry.attributes.position;
   const normal = geometry.attributes.normal;
@@ -119,11 +120,11 @@ export function bakeLatheOcclusion(
     }
   }
 
-  writeOcclusion(geometry, values);
+  return values;
 }
 
 /** Oclusión vértice a vértice para geometrías sin simetría (el asa). */
-export function bakeOcclusion(geometry: THREE.BufferGeometry, baker: OcclusionBaker) {
+export function meshOcclusion(geometry: THREE.BufferGeometry, baker: OcclusionBaker): Float32Array {
   const position = geometry.attributes.position;
   const normal = geometry.attributes.normal;
   const values = new Float32Array(position.count);
@@ -134,5 +135,43 @@ export function bakeOcclusion(geometry: THREE.BufferGeometry, baker: OcclusionBa
     n.fromBufferAttribute(normal, i);
     values[i] = baker.sample(p, n);
   }
-  writeOcclusion(geometry, values);
+  return values;
+}
+
+export interface SceneOcclusion {
+  cupBody: Float32Array;
+  handle: Float32Array;
+  saucer: Float32Array;
+}
+
+const CUP_AO = { distance: 0.45, strength: 0.75 };
+
+/**
+ * Calcula la oclusión de todas las piezas de cerámica. Es determinista:
+ * las geometrías se recrean aquí con las mismas funciones que usa la escena,
+ * así que los arrays encajan vértice a vértice. Pensado para correr en un Worker.
+ */
+export function bakeSceneOcclusion(): SceneOcclusion {
+  const body = createCupGeometry();
+  const handle = createHandleGeometry();
+  const saucer = createSaucerGeometry();
+
+  // El cuerpo es simétrico salvo junto al asa: allí se recalcula con el asa como obstáculo.
+  const bodyOnly = new OcclusionBaker([body], { ...CUP_AO, samples: 48 });
+  const withHandle = new OcclusionBaker([body, handle], { ...CUP_AO, samples: 16 });
+
+  const result = {
+    cupBody: latheOcclusion(body, bodyOnly, {
+      baker: withHandle,
+      // Solo la pared exterior del lado del asa, a la altura del asa.
+      where: (p, n) => n.x > 0.3 && Math.abs(p.z) < 0.6 && p.y > 0.2 && p.y < 1.15,
+    }),
+    handle: meshOcclusion(handle, withHandle),
+    saucer: latheOcclusion(saucer, new OcclusionBaker([saucer], { samples: 48, distance: 0.35, strength: 0.7 })),
+  };
+
+  body.dispose();
+  handle.dispose();
+  saucer.dispose();
+  return result;
 }

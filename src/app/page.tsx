@@ -6,12 +6,14 @@ import { SectionIndicator } from "@/components/landing/SectionIndicator/SectionI
 import { Visit } from "@/components/landing/Visit/Visit";
 import { Footer } from "@/components/layout/Footer/Footer";
 import { Navbar } from "@/components/layout/Navbar/Navbar";
+import { Preloader } from "@/components/layout/Preloader/Preloader";
 import { SmoothScroll } from "@/components/layout/SmoothScroll";
 import { SceneLoader } from "@/components/three/SceneLoader";
 
 export default function Home() {
   return (
     <>
+      <Preloader />
       <SmoothScroll />
       <Navbar />
       <SceneLoader />

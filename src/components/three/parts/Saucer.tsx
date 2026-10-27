@@ -1,16 +1,17 @@
-import { useEffect, useMemo } from "react";
-import { bakeLatheOcclusion, OcclusionBaker } from "../ambientOcclusion";
+import { use, useEffect, useMemo } from "react";
+import { writeOcclusion } from "../ambientOcclusion";
 import { createSaucerGeometry } from "../geometry";
 import { CeramicMaterial } from "../materials";
-
-function createSaucer() {
-  const geometry = createSaucerGeometry();
-  bakeLatheOcclusion(geometry, new OcclusionBaker([geometry], { samples: 48, distance: 0.35, strength: 0.7 }));
-  return geometry;
-}
+import { loadOcclusion } from "../occlusion";
 
 export function Saucer() {
-  const geometry = useMemo(() => createSaucer(), []);
+  const occlusion = use(loadOcclusion());
+
+  const geometry = useMemo(() => {
+    const saucer = createSaucerGeometry();
+    writeOcclusion(saucer, occlusion.saucer);
+    return saucer;
+  }, [occlusion]);
 
   useEffect(() => () => geometry.dispose(), [geometry]);
 

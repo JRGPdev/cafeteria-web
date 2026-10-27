@@ -26,6 +26,19 @@ html.lenis body {
   overflow: clip;
 }
 
+/* Pantalla de carga: sin scroll nativo y la intro del hero/navbar en pausa
+   hasta que el telón sube (atributos que pone el Preloader). */
+html[data-loading] {
+  overflow: hidden;
+}
+
+@media (scripting: enabled) {
+  html:not([data-loaded]) :is(#inicio, [data-intro]),
+  html:not([data-loaded]) :is(#inicio, [data-intro]) * {
+    animation-play-state: paused !important;
+  }
+}
+
 body {
   background: var(--crema);
   color: var(--espresso);

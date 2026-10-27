@@ -36,23 +36,6 @@ export const ANATOMY = {
   eyebrow: "01 — Anatomía de una taza",
   title: "Cada parte cuenta.",
   body: "Separamos la taza para que veas lo que normalmente no se ve: nada está ahí por casualidad.",
-  parts: [
-    {
-      index: "01",
-      title: "La taza",
-      detail: "Cerámica gruesa que guarda el calor hasta el último sorbo.",
-    },
-    {
-      index: "02",
-      title: "El espresso",
-      detail: "Doble, 18 g de café molido al momento.",
-    },
-    {
-      index: "03",
-      title: "El platillo",
-      detail: "Para la cucharita, el terrón y la calma.",
-    },
-  ],
 } as const;
 
 export const ESPRESSO = {

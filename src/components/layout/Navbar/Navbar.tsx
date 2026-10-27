@@ -15,7 +15,7 @@ function CupIcon() {
 
 export function Navbar() {
   return (
-    <header className={styles.header}>
+    <header className={styles.header} data-intro>
       <nav className={styles.nav} aria-label="Principal">
         <a href="#inicio" className={styles.brand}>
           <CupIcon />

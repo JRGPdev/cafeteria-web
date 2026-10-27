@@ -9,10 +9,10 @@ import { mergeVertices } from "three/examples/jsm/utils/BufferGeometryUtils.js";
 
 type Point = [number, number];
 
-const LATHE_SEGMENTS = 160;
+const LATHE_SEGMENTS = 128;
 
 /** Interpola los puntos de control con Catmull-Rom para tener siluetas sin facetas. */
-function smoothProfile(points: Point[], divisions = 320): THREE.Vector2[] {
+function smoothProfile(points: Point[], divisions = 220): THREE.Vector2[] {
   const curve = new THREE.SplineCurve(points.map(([x, y]) => new THREE.Vector2(x, y)));
   return curve.getSpacedPoints(divisions).map((p) => new THREE.Vector2(Math.max(0, p.x), p.y));
 }
@@ -198,7 +198,7 @@ export function createDropletGeometry() {
 
 /** Grano de café: elipsoide aplanado con la hendidura central en forma de S. */
 export function createBeanGeometry() {
-  const base = new THREE.SphereGeometry(0.5, 48, 32);
+  const base = new THREE.SphereGeometry(0.5, 32, 24);
   base.deleteAttribute("normal");
   base.deleteAttribute("uv");
   const geometry = mergeVertices(base);

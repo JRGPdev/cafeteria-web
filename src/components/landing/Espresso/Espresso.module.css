@@ -18,9 +18,7 @@
   padding: var(--space-4);
   border: 1px solid var(--borde);
   border-radius: var(--radius-md);
-  background: color-mix(in srgb, var(--crema) 70%, transparent);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  background: color-mix(in srgb, var(--crema) 94%, transparent);
 }
 
 .value {
