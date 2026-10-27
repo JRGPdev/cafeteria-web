@@ -1,0 +1,73 @@
+/*
+ * Capas: fondo de la sección (z auto) → lienzo 3D fijo (z 1) → contenido (z 2).
+ * La sección NO crea contexto de apilamiento para que el lienzo pueda quedar en medio.
+ */
+.section {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 100svh;
+  padding: calc(var(--nav-height) + var(--space-12)) var(--gutter) var(--space-16);
+  color: var(--espresso);
+}
+
+/* Fondo por defecto con especificidad 0: cada sección lo sobrescribe sin pelear por el orden del CSS. */
+:where(.section) {
+  background: var(--crema);
+}
+
+.backdrop {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.inner {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  width: 100%;
+  max-width: var(--container);
+  margin: 0 auto;
+}
+
+.content {
+  width: 100%;
+  max-width: 34rem;
+}
+
+.start {
+  justify-content: flex-start;
+}
+
+.end {
+  justify-content: flex-end;
+}
+
+.center {
+  justify-content: center;
+  text-align: center;
+}
+
+.center .content {
+  max-width: 40rem;
+}
+
+.center .content p {
+  margin-inline: auto;
+}
+
+/* Móvil: la taza ocupa la mitad superior y el texto baja. */
+@media (max-width: 767px) {
+  .section {
+    align-items: flex-end;
+    padding-top: 52svh;
+    padding-bottom: var(--space-12);
+  }
+
+  .inner {
+    justify-content: flex-start;
+    text-align: left;
+  }
+}

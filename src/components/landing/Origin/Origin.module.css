@@ -1,0 +1,55 @@
+.origin {
+  background: var(--crema);
+}
+
+/* Fondo partido crema / arena: la taza queda justo sobre el corte (vista cenital). */
+.split {
+  position: absolute;
+  inset: 0 0 0 66%;
+  background: var(--arena);
+}
+
+.split::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(60% 50% at 10% 55%, rgba(43, 29, 20, 0.18), transparent 70%);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-8);
+}
+
+.chip {
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid var(--borde);
+  border-radius: var(--radius-pill);
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 600;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
+
+.chip:hover {
+  background: var(--espresso);
+  color: var(--crema);
+}
+
+.note {
+  margin-top: var(--space-6);
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--espresso-suave);
+}
+
+@media (max-width: 767px) {
+  .split {
+    inset: 0 0 50% 0;
+    background: linear-gradient(90deg, var(--crema) 0 50%, var(--arena) 50%);
+  }
+}

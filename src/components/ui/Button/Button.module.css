@@ -1,0 +1,43 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-6);
+  border-radius: var(--radius-md);
+  font: 600 16px/24px var(--font-sans);
+  white-space: nowrap;
+  transition:
+    transform 0.4s var(--ease-out),
+    background-color 0.3s ease,
+    color 0.3s ease,
+    box-shadow 0.4s var(--ease-out);
+}
+
+.button:hover {
+  transform: translateY(-2px);
+}
+
+.button:active {
+  transform: translateY(0);
+}
+
+.primary {
+  background: var(--tostado);
+  color: var(--sobre-tostado);
+  border: 1.5px solid var(--tostado);
+}
+
+.primary:hover {
+  box-shadow: 0 10px 24px -10px rgba(138, 75, 38, 0.7);
+}
+
+.secondary {
+  background: transparent;
+  color: var(--tostado);
+  border: 1.5px solid var(--tostado);
+}
+
+.secondary:hover {
+  background: color-mix(in srgb, var(--tostado) 10%, transparent);
+}
