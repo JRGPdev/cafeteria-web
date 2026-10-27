@@ -1,36 +1,45 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Calma Café — Landing 3D
 
-## Getting Started
+Landing de cafetería con una escena 3D que reacciona al scroll: la taza, el café y el platillo se separan, giran y se vuelven a armar mientras bajas por la página.
 
-First, run the development server:
+**Stack:** Next.js 16 (App Router) · TypeScript · CSS Modules · three.js + React Three Fiber · Lenis (scroll suave)
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev   # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Estructura
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+src/
+├─ app/                     layout (fuentes, metadata) y página
+├─ styles/tokens.css        design system: colores, tipografía, espaciado, radios (claro/oscuro)
+├─ content/landing.ts       todos los textos de la landing
+├─ lib/                     utilidades sin UI (progreso de scroll, keyframes, random, motion)
+└─ components/
+   ├─ ui/                   piezas del design system (Button, Reveal)
+   ├─ layout/               Navbar, Footer, SmoothScroll
+   ├─ landing/              secciones (Hero, Anatomy, Espresso, Origin, Visit) + SceneSection
+   └─ three/                escena 3D
+      ├─ CoffeeScene.tsx      Canvas, luces, etiquetas
+      ├─ CoffeeAssembly.tsx   aplica la coreografía cada frame
+      ├─ choreography.ts      ← poses por sección (edita aquí la animación)
+      ├─ geometry.ts          modelos procedurales (taza, platillo, café, grano)
+      └─ parts/               Cup, Saucer, Coffee, Splash, Beans, Steam
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Cómo funciona la animación
 
-## Learn More
+1. Cada `<section data-scene-section>` es una **parada**. `lib/scene-progress.ts` convierte el scroll en un número continuo: `0` = Hero, `1` = Anatomía, `2.5` = a mitad entre Espresso y Origen…
+2. `three/choreography.ts` define una pose (posición, rotación, escala) por parada para el conjunto y para cada pieza.
+3. Cada frame se interpola entre poses con una curva suave. Añadir una sección = añadir un `SceneSection` y una pose más en cada pista.
 
-To learn more about Next.js, take a look at the following resources:
+## Render realista
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Entorno:** HDRI de estudio real `public/hdri/studio_small_09_1k.hdr` ([Poly Haven](https://polyhaven.com/a/studio_small_09), CC0) + un softbox frontal para el brillo vertical de la cerámica.
+- **Sombras:** luz de ventana con sombras suaves (PCSS) y sombra de contacto bajo el platillo.
+- **Oclusión ambiental horneada** (`three/ambientOcclusion.ts`): al cargar se lanzan rayos con `three-mesh-bvh` y el resultado se guarda en el color de vértice. No cuesta nada por frame.
+- **Materiales:** esmalte con clearcoat, café líquido brillante, crema mate con relieve y texturas generadas en canvas.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Los modelos son procedurales (sin `.glb`), así que la escena pesa unos KB (más el HDRI de 1,6 MB). Se respeta `prefers-reduced-motion` (sin scroll suave ni movimiento idle).

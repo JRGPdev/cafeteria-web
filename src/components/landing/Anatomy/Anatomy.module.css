@@ -1,0 +1,45 @@
+.anatomy {
+  background:
+    radial-gradient(60% 70% at 75% 50%, var(--crema-200) 0%, transparent 70%),
+    var(--crema);
+}
+
+.parts {
+  display: grid;
+  gap: var(--space-4);
+  margin-top: var(--space-8);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--borde);
+}
+
+.part {
+  display: flex;
+  gap: var(--space-4);
+}
+
+.index {
+  font: 600 20px/26px var(--font-display);
+  color: var(--tostado);
+}
+
+.partTitle {
+  font: 600 18px/24px var(--font-sans);
+}
+
+.partDetail {
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--espresso-suave);
+}
+
+/* En escritorio las etiquetas viven sobre el 3D: la lista solo se lee por lector de pantalla. */
+@media (min-width: 1100px) {
+  .parts {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+}

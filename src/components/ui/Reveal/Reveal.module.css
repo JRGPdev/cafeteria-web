@@ -1,0 +1,15 @@
+.reveal {
+  transition:
+    opacity 0.9s var(--ease-out) var(--reveal-delay, 0ms),
+    transform 1.1s var(--ease-out) var(--reveal-delay, 0ms),
+    filter 0.9s var(--ease-out) var(--reveal-delay, 0ms);
+}
+
+/* Solo se oculta si hay JS: sin scripts el contenido sigue visible. */
+@media (scripting: enabled) {
+  .reveal:not(.visible) {
+    opacity: 0;
+    transform: translateY(32px);
+    filter: blur(6px);
+  }
+}

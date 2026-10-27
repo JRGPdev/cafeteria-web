@@ -1,0 +1,51 @@
+.espresso {
+  background:
+    radial-gradient(55% 75% at 22% 50%, color-mix(in srgb, var(--caramelo) 22%, transparent) 0%, transparent 70%),
+    var(--crema-200);
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-4);
+  margin-top: var(--space-8);
+}
+
+.stat {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: var(--space-1);
+  padding: var(--space-4);
+  border: 1px solid var(--borde);
+  border-radius: var(--radius-md);
+  background: color-mix(in srgb, var(--crema) 70%, transparent);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.value {
+  font: 600 clamp(32px, 2vw + 16px, 44px) / 1 var(--font-display);
+  color: var(--tostado);
+}
+
+.unit {
+  margin-left: var(--space-1);
+  font-size: 0.45em;
+  color: var(--espresso-suave);
+}
+
+.label {
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--espresso-suave);
+}
+
+@media (max-width: 479px) {
+  .stats {
+    gap: var(--space-2);
+  }
+
+  .stat {
+    padding: var(--space-3);
+  }
+}
